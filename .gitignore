@@ -1,0 +1,4 @@
+SECRETS.md
+*.env
+*.pem
+*.key
