@@ -23,5 +23,10 @@
 - Excluded from most vzdump jobs (disabled stop-mode job remains).
 - TUNNELS (both DOWN while 300 stopped):
     torrents.example.com -> 192.168.10.30:8080 (qBittorrent) - valid when up
-    books.example.com -> 192.168.10.30:8083 - STALE, calibre-web removed,
-      delete this entry in Cloudflare dashboard
+    books.example.com -> REMOVED from Cloudflare (calibre-web gone)
+
+## Weekly auto-update (no watchtower)
+- PVE host cron: `0 4 * * 0 /root/ct300-weekly-update.sh` (Sun 04:00)
+- Script: starts CT 300, waits for Docker, runs `docker compose pull && up -d`, stops CT.
+- Log: `/var/log/ct300-weekly-update.log` on PVE host.
+- Script copy in repo: `scripts/ct300-weekly-update.sh`
