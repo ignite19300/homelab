@@ -6,6 +6,25 @@
   when needed. This is the standing policy: memory-hungry on-demand services
   stay stopped.
 
+## 2026-11-02 (final) - Kubuntu (103) full optimization pass
+- **Kubuntu gets 20 cores / 21GB RAM.** vCPUs are ceilings, not reservations -
+  the host scheduler shares all threads on demand. Windows 11 is excluded
+  from all resource math (never counted as a running VM). 24GB RAM rejected:
+  21GB is already the ceiling (host fully allocated at ~30.7 of 31.1GB).
+- **Guest agent added** (`agent: enabled=1` in 103.conf - it was missing
+  entirely, which is why the guest service failed with a dependency error).
+- **llama-server pinned to the 12 P-cores** (taskset 0x0FFF, boot service
+  llama-pin.service). E-cores stay free for the desktop. Rationale: LLM is
+  the heaviest workload; P-cores run ~5.1GHz vs ~3.5GHz on E.
+- **Removed SqueezeboxServer (lms.service)** from Kubuntu - it was a
+  crash-looping duplicate of the real music server (LXC CT 202).
+- **Disabled 7 junk services** (libvirtd, ModemManager, cups, cups-browsed,
+  rpcbind, geoclue, packagekit) - none needed on this box.
+- **sysctl tuning** persisted: vfs_cache_pressure=50, dirty_ratio=10,
+  dirty_background_ratio=5, swappiness=10.
+- Result: 38 GB/s aggregate CPU (2.4x old), disk at physical limit
+  (3.0/6.0 GB/s), RAM hot with no swap pressure.
+
 ## 2026-11-01
 - **Offsite backup deferred.** No offsite target for now. Mitigation: the git
   repo (this repo) is offsite on GitHub (private) and covers all configs.
