@@ -53,3 +53,12 @@
   of user intent) then re-created the same day. Images cached locally.
 - This VM also hosts this documentation's working tree (~/homelab/homelab-infra)
   and the OpenWebUI agent that manages the lab.
+
+## Voice stack (STT + TTS) — 2026-11-02
+Fully local speech stack in Docker: `speaches` (Whisper STT + Kokoro/Piper TTS, :8000)
++ `wyoming_openai` bridge (:10300) for Home Assistant. All 4 languages local
+(en/de/el/it, all female voices). Feeds Open WebUI (chat mic + TTS) and HA.
+Compose: /opt/voice/docker-compose.yml (voice_default network). Full docs:
+**nodes/103-kubuntu/voice-stack.md**. Edge TTS was tried but 403-blocked (datacenter IP)
+— pivoted to local Piper. Open WebUI must be on `voice_default` network
+(`docker network connect voice_default open-webui`) or it can't reach speaches.
