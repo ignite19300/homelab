@@ -20,9 +20,9 @@ internally by IP and externally via named Cloudflare Tunnel hosts.
 | 110 | VaultWarden | LXC | 192.168.10.10 | vmbr2/10 | Password manager (Alpine) |
 | 111 | Cloudflared | LXC | 192.168.10.11 | vmbr2/10 | Cloudflare Tunnel (12 services) + postfix |
 | 200 | FilesStack | LXC | 192.168.10.20 | vmbr2/10 | Samba :445, FileBrowser :8081, Radicale :5232, rclone WebDAV :8082 |
-| 202 | MusicServer | LXC | 192.168.10.22 | vmbr1 | Music streaming |
+| 202 | MusicServer | LXC | 192.168.1.22 | vmbr1 | Lyrion Music Server :3483 (always-on music) |
 | 203 | JellyFin | LXC | 192.168.10.23 | vmbr2/10 | Media server (currently stopped) |
-| 300 | Docker | LXC | 192.168.10.30 | vmbr2/10 | Generic Docker host (currently stopped; services moved to Kubuntu 103) |
+| 300 | Docker | LXC | 192.168.10.30 | vmbr2/10 | Generic Docker host (stopped; candidate for deletion) |
 
 > Note: LXC IPs shown are the stable ones from the IP map. `ip=dhcp` in
 > .conf files means they get assigned by DHCP — the table records the
@@ -45,19 +45,20 @@ internally by IP and externally via named Cloudflare Tunnel hosts.
 | jellyfin.example.com | 192.168.10.23:8096 | JellyFin (currently down) |
 | cloud.example.com | 192.168.10.20:8082 | rclone WebDAV |
 | ai.example.com | 192.168.1.8:3000 | OpenWebUI |
-| tube.example.com | 192.168.10.30:8081 | MetaTube (see note below) |
+| tube.example.com | 192.168.1.8:8081 | MetaTube (container removed 2026-11-01 — tunnel stale) |
 | contacts.example.com | 192.168.10.20:5232 | Radicale (CalDAV/CardDAV) |
 | files.example.com | 192.168.10.20:8081 | FileBrowser |
 | books.example.com | 192.168.10.30:8083 | ebooks (CT 300 - currently down) |
-| library.example.com | 192.168.10.30:13378 | Audiobookshelf (see note below) |
+| library.example.com | 192.168.1.8:13378 | Audiobookshelf (container removed 2026-11-01 — tunnel stale) |
 | search.example.com | 192.168.1.8:8080 | SearXNG |
 
 **KNOWN ISSUE (2026-11-01):** CT 300 (Docker) is stopped, so tunnels targeting
-192.168.10.30 are down: torrents, jellyfin (target is 203 which is also stopped),
-books. MetaTube/Audiobookshelf/ebook2audiobook are actually running on Kubuntu
-(192.168.1.8) now — the tunnel entries for `tube` and `library` likely still
-point at 192.168.10.30 and need to be re-pointed to 192.168.1.8:8081 and
-192.168.1.8:13378. See `docs/runbooks/repoint-tunnel.md`.
+192.168.10.30 are down: torrents, books, jellyfin (target 203 also stopped).
+The `tube` and `library` tunnels were re-pointed to 192.168.1.8 on 2026-11-01,
+but the metube/audiobookshelf containers were then REMOVED from Kubuntu
+(rarely used; Kodi+Real-Debrid covers media). Those two tunnel entries are
+stale — remove them in the Cloudflare dashboard, or re-deploy the containers
+when needed. See `docs/runbooks/repoint-tunnel.md`.
 
 ## Backups (vzdump, all zstd, snapshot mode)
 
