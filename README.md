@@ -45,20 +45,17 @@ internally by IP and externally via named Cloudflare Tunnel hosts.
 | jellyfin.example.com | 192.168.10.23:8096 | JellyFin (currently down) |
 | cloud.example.com | 192.168.10.20:8082 | rclone WebDAV |
 | ai.example.com | 192.168.1.8:3000 | OpenWebUI |
-| tube.example.com | 192.168.1.8:8081 | MetaTube (container removed 2026-11-01 — tunnel stale) |
+| tube.example.com | 192.168.1.8:8081 | MetaTube (Kubuntu) |
 | contacts.example.com | 192.168.10.20:5232 | Radicale (CalDAV/CardDAV) |
 | files.example.com | 192.168.10.20:8081 | FileBrowser |
 | books.example.com | 192.168.10.30:8083 | ebooks (CT 300 - currently down) |
-| library.example.com | 192.168.1.8:13378 | Audiobookshelf (container removed 2026-11-01 — tunnel stale) |
+| library.example.com | 192.168.1.8:13378 | Audiobookshelf (Kubuntu) |
 | search.example.com | 192.168.1.8:8080 | SearXNG |
 
 **KNOWN ISSUE (2026-11-01):** CT 300 (Docker) is stopped, so tunnels targeting
 192.168.10.30 are down: torrents, books, jellyfin (target 203 also stopped).
-The `tube` and `library` tunnels were re-pointed to 192.168.1.8 on 2026-11-01,
-but the metube/audiobookshelf containers were then REMOVED from Kubuntu
-(rarely used; Kodi+Real-Debrid covers media). Those two tunnel entries are
-stale — remove them in the Cloudflare dashboard, or re-deploy the containers
-when needed. See `docs/runbooks/repoint-tunnel.md`.
+The `tube` and `library` tunnels were re-pointed to 192.168.1.8 (Kubuntu)
+and are live. MetaTube and Audiobookshelf run on Kubuntu, not CT 300.
 
 ## Backups (vzdump, all zstd, snapshot mode)
 
