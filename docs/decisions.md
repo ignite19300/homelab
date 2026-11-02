@@ -1,6 +1,10 @@
-# Decisions Log (append-only)
-
-One entry per major choice. Newest first. Do not edit old entries — add a new one if you reverse a decision.
+## 2026-11-02 (later)
+- **CT 300 parked (stopped) on-demand.** Host is memory-constrained: with
+  300 running the active total is ~28GB of 31GB, leaving no headroom for
+  JellyFin (8GB) or Windows (12GB). 300 (arr stack + qBittorrent) is used
+  only occasionally, so it is stopped to free 3GB. Start with `pct start 300`
+  when needed. This is the standing policy: memory-hungry on-demand services
+  stay stopped.
 
 ## 2026-11-01
 - **Offsite backup deferred.** No offsite target for now. Mitigation: the git

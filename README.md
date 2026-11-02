@@ -22,7 +22,7 @@ internally by IP and externally via named Cloudflare Tunnel hosts.
 | 200 | FilesStack | LXC | 192.168.10.20 | vmbr2/10 | Samba :445, FileBrowser :8081, Radicale :5232, rclone WebDAV :8082 |
 | 202 | MusicServer | LXC | 192.168.1.22 | vmbr1 | Lyrion Music Server :3483 (always-on music) |
 | 203 | JellyFin | LXC | 192.168.10.23 | vmbr2/10 | Media server (currently stopped) |
-| 300 | Docker | LXC | 192.168.10.30 | vmbr2/10 | Generic Docker host (stopped; candidate for deletion) |
+| 300 | Docker | LXC | 192.168.10.30 | vmbr2/10 | arr stack + qBittorrent (STOPPED on-demand; frees 3GB) |
 
 > Note: LXC IPs shown are the stable ones from the IP map. `ip=dhcp` in
 > .conf files means they get assigned by DHCP — the table records the

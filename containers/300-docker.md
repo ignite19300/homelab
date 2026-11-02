@@ -1,7 +1,14 @@
 # 300 Docker (LXC)
-- 2c/3GB (was 4c/4GB, tuned 2026-11-02), 192.168.10.30.
-- arr stack + qBittorrent. Compose file: /root/docker-compose.yml (in CT).
-- Running containers (7):
+- 2c/3GB, 192.168.10.30. **STOPPED (on-demand, 2026-11-02).**
+- Reason: host is memory-constrained (~28GB/31GB active with 300 running).
+  300 is used only occasionally (torrents for apps/music), so it's parked
+  to free 3GB for headroom (JellyFin 8GB / Windows 12GB).
+
+## To start it
+  pct start 300
+  (arrs re-scan on start; qBittorrent re-establishes P2P in ~30s.)
+
+## Contents (7 containers, compose at /root/docker-compose.yml in CT)
     sonarr      :8989  (TV)
     radarr      :7878  (movies)
     lidarr      :8686  (music)
@@ -9,12 +16,12 @@
     prowlarr    :9696  (indexer manager)
     qbittorrent :8080  (download client, :6881 P2P)
     flaresolverr:8191  (torrent unblocker)
-- REMOVED 2026-11-02: metube, audiobookshelf (moved to Kubuntu 103),
-  calibre-web, scraper-app, vpn-sidecar (not needed).
+- REMOVED 2026-11-02: metube, audiobookshelf (now on Kubuntu 103),
+  calibre-web, scraper-app, vpn-sidecar.
 - mem_limit in compose does NOT work (nested Docker in LXC lacks cgroup v2
-  memory delegation). Containers run without explicit limits. CT-level
-  memory cap (3GB) is the effective limit.
-- Excluded from most vzdump jobs. Disabled stop-mode job remains.
-- TUNNEL: torrents.example.com -> 192.168.10.30:8080 (qBittorrent UI).
-  books.example.com -> 192.168.10.30:8083 is STALE (calibre-web removed).
-  Remove the books tunnel entry in Cloudflare dashboard.
+  memory delegation). CT-level 3GB cap is the effective limit.
+- Excluded from most vzdump jobs (disabled stop-mode job remains).
+- TUNNELS (both DOWN while 300 stopped):
+    torrents.example.com -> 192.168.10.30:8080 (qBittorrent) - valid when up
+    books.example.com -> 192.168.10.30:8083 - STALE, calibre-web removed,
+      delete this entry in Cloudflare dashboard
