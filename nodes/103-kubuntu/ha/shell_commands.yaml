@@ -1,0 +1,37 @@
+# =============================================================================
+# Home Assistant: LLM Recovery Shell Commands
+# =============================================================================
+#
+# SETUP (one-time, on the HA box):
+#   1. Create the SSH key directory:
+#        mkdir -p /config/ssh && chmod 700 /config/ssh
+#   2. Copy the private key (below) to /config/ssh/ha_access
+#        chmod 600 /config/ssh/ha_access
+#   3. Add the shell_command block below to /config/configuration.yaml
+#   4. Restart HA
+#
+# PRIVATE KEY (copy to /config/ssh/ha_access):
+#   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8ECGqHSSlNh5+LVe6+XKmu6LpsF89kBsIb09Rj81DS home-assistant-to-vm
+#
+#   (That's the PUBLIC key — the PRIVATE key is in home/user/.ssh/ha_access
+#    on the KUbuntu VM. Copy it to the HA box:)
+#      scp -i <your-key> user@192.168.1.8:home/user/.ssh/ha_access /config/ssh/ha_access
+#      chmod 600 /config/ssh/ha_access
+#
+# =============================================================================
+
+shell_command:
+  # Start the 27B text model on port 9931
+  llama_27b_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "home/user/bin/llama-start.sh"
+
+  # Start OpenWebUI docker container
+  owui_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "home/user/bin/owui-start.sh"
+
+  # Check status of llama ports
+  llama_status: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "ss -tln | grep -E '9931|8090|8900' || echo 'no llama ports listening'"
+
+  # Check status of OpenWebUI
+  owui_status: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "docker ps --format '{{.Names}}: {{.Status}}' | grep open-webui || echo 'open-webui not running'"
+
+  # Start the llama router (port 9931)
+  router_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "echo REDACTED_PASSWORD | sudo -S systemctl start llama-router.service && echo 'router started'"
