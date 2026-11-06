@@ -47,6 +47,19 @@
   it doesn't exist for documentation purposes. Secret values never committed;
   VaultWarden is the secret home.
 
+## 2026-11-06
+- **pfBlockerNG threat-blocking brought online.** 3.2.17 active with ~17.3K IP
+  entries (CINS/ET/Spamhaus/ISC/Talos/Abuse) in `pfB_PRI1_v4`, verified live
+  on LAN + OPT. This closes the main inbound-threat gap. pfBlockerNG DNSBL is
+  enabled in config but NOT wired (lighty not running, Unbound not pointed at
+  it) -> ad/malware-domain blocking is a P1 TODO, not done.
+- **mesh VPN fully removed** from pfSense (proc/iface/rules gone). The
+  Squeezebox (192.168.1.62) still hammers the dead mesh VPN peer 100.64.0.1:9000,
+  inflating the pf state table ~63% stale -> P1 block-rule TODO.
+- **Documentation discipline:** a single `docs/TODO.md` is now the backlog /
+  "things to do later" source of truth, tiered P1/P2/P3/IDEA. pfSense notes
+  moved to the 2.9 config path (`/cf/conf/config.xml`).
+
 ## Earlier (reconstructed from current state)
 - **Proxmox VE as the hypervisor.** Free, VMs + LXC in one tool, built-in
   vzdump backups, web UI. Chosen over ESXi (paid, no LXC) and bare metal.

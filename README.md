@@ -3,6 +3,8 @@
 Self-hosted homelab: Proxmox VE host + pfSense firewall, exposing 12 services
 via Cloudflare Tunnel under `*.example.com`. Single household, Berlin.
 
+> **Backlog / things to fix later:** see [docs/TODO.md](docs/TODO.md) (tiered P1/P2/P3).
+
 ## What is this?
 
 One physical Proxmox server (node `pve`, 192.168.1.2) running 4 VMs and 6 LXC
