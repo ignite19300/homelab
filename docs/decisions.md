@@ -2,7 +2,7 @@
 - **llama.cpp router mode.** Replaced the old two-server setup (separate 27B + 8B
   llama-servers + custom Python router on :8900) with a SINGLE llama-server in
   ROUTER MODE on :9931, managed by systemd `llama-router.service` (enabled,
-  Restart=always). Models dir home/user/llama-server-router/ with models.ini
+  Restart=always). Models dir /home/user/llama-server-router/ with models.ini
   preset (n-gpu-layers 99, c 91136, flash-attn on, q4_0 KV cache, temp 0.6,
   top-p 0.85, top-k 20, min-p 0.05). 27B (IQ3_S + MTP draft, spec-type draft-mtp,
   load-on-startup) + Qwen3-VL-8B vision (loaded on demand). Rationale: one

@@ -47,7 +47,7 @@
     searxng         :8080  (privacy search)
     ebook2audiobook :7860  (ebook -> audiobook, GPU)
     metube          :8081  (alexta69/metube - YouTube frontend)
-    audiobookshelf  :13378 (ghcr.io/advplyr/audiobookshelf, data home/user/audiobooks)
+    audiobookshelf  :13378 (ghcr.io/advplyr/audiobookshelf, data /home/user/audiobooks)
 - watchtower removed 2026-11-02 (replaced by scripts/ct300-weekly-update.sh).
 - History: metube + audiobookshelf were briefly removed 2026-11-02 (misread
   of user intent) then re-created the same day. Images cached locally.

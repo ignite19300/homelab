@@ -16,7 +16,7 @@
 | **Unbound RPZ (internal names)** | **Working.** `host_entries.conf` auto-generated from DHCP statics: all 32 hosts (LAN + OPT) as `local-data` A + PTR. Verified `Home_Assistant.example.com -> 192.168.1.5`. |
 | **WAN hardening** | SSH/telnet blocked from WAN, bogon + private-net anti-spoof enabled. |
 | **SSH** | sshguard active; key-based path. (fail2ban-style throttling observed on rapid reconnects.) |
-| **VPN** | WireGuard VPN WireGuard `tun_wg0` 192.168.2.2/32, full-tunnel. Kill-switch rules active (LAN + OPT). |
+| **VPN** | WireGuard `tun_wg0` 192.168.2.2/32, full-tunnel. Kill-switch rules active (LAN + OPT). |
 | **Remote access** | Cloudflared tunnel (CT 111) — no ports exposed at the router. mesh VPN fully removed (no proc/iface/rules). |
 
 - **Firewall rules:** 23. **NAT port-forwards:** 0 (clean).

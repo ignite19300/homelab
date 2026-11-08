@@ -7,7 +7,7 @@
 #        mkdir -p /config/ssh && chmod 700 /config/ssh
 #   2. Copy the private key to /config/ssh/ha_access
 #        chmod 600 /config/ssh/ha_access
-#      (Key source: home/user/.ssh/ha_access on KUbuntu VM 103)
+#      (Key source: /home/user/.ssh/ha_access on KUbuntu VM 103)
 #   3. Add the shell_command block below to /config/configuration.yaml
 #   4. Restart HA
 #
@@ -20,10 +20,10 @@
 
 shell_command:
   # Start the 27B text model on port 9931
-  llama_27b_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "home/user/bin/llama-start.sh"
+  llama_27b_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "/home/user/bin/llama-start.sh"
 
   # Start OpenWebUI docker container
-  owui_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "home/user/bin/owui-start.sh"
+  owui_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "/home/user/bin/owui-start.sh"
 
   # Check status of llama ports
   llama_status: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "ss -tln | grep -E '9931|8090|8900' || echo 'no llama ports listening'"

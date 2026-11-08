@@ -20,4 +20,4 @@ printf '%s\n' \
   '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
   "$REQUEST" \
   | HA_MCP_URL="$HA_URL" HA_MCP_TOKEN="$HA_TOKEN" \
-    timeout 15 node home/user/ha-mcp/node_modules/ha-mcp/dist/stdio.js 2>/dev/null
+    timeout 15 node /home/user/ha-mcp/node_modules/ha-mcp/dist/stdio.js 2>/dev/null
