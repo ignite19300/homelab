@@ -5,19 +5,17 @@
 # SETUP (one-time, on the HA box):
 #   1. Create the SSH key directory:
 #        mkdir -p /config/ssh && chmod 700 /config/ssh
-#   2. Copy the private key (below) to /config/ssh/ha_access
+#   2. Copy the private key to /config/ssh/ha_access
 #        chmod 600 /config/ssh/ha_access
+#      (Key source: home/user/.ssh/ha_access on KUbuntu VM 103)
 #   3. Add the shell_command block below to /config/configuration.yaml
 #   4. Restart HA
 #
-# PRIVATE KEY (copy to /config/ssh/ha_access):
-#   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8ECGqHSSlNh5+LVe6+XKmu6LpsF89kBsIb09Rj81DS home-assistant-to-vm
-#
-#   (That's the PUBLIC key — the PRIVATE key is in home/user/.ssh/ha_access
-#    on the KUbuntu VM. Copy it to the HA box:)
-#      scp -i <your-key> user@192.168.1.8:home/user/.ssh/ha_access /config/ssh/ha_access
-#      chmod 600 /config/ssh/ha_access
-#
+# Note: sudo password for KUbuntu is stored in VaultWarden (192.168.10.10)
+#       — NOT in this file. The router_start command below uses a
+#       passwordless sudoers entry for the llama-router service only.
+#       To set up: on KUbuntu, add to /etc/sudoers.d/ha-llama:
+#         user ALL=(root) NOPASSWD: /usr/bin/systemctl start llama-router.service
 # =============================================================================
 
 shell_command:
@@ -33,5 +31,5 @@ shell_command:
   # Check status of OpenWebUI
   owui_status: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "docker ps --format '{{.Names}}: {{.Status}}' | grep open-webui || echo 'open-webui not running'"
 
-  # Start the llama router (port 9931)
-  router_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "echo REDACTED_PASSWORD | sudo -S systemctl start llama-router.service && echo 'router started'"
+  # Start the llama router (port 9931) — uses passwordless sudo on KUbuntu
+  router_start: /usr/bin/ssh -i /config/ssh/ha_access -o StrictHostKeyChecking=no -o ConnectTimeout=10 user@192.168.1.8 "sudo systemctl start llama-router.service && echo 'router started'"

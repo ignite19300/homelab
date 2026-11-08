@@ -1,9 +1,16 @@
 #!/bin/bash
 # HA MCP helper — sends a JSON-RPC request to the ha-mcp stdio server
 # Usage: ha-mcp.sh '<jsonrpc_request>'
+#
+# Requires HA_TOKEN env var to be set (long-lived HA access token).
+# Set it in ~/.bashrc or export it before running.
 
 HA_URL="http://192.168.1.5:8123"
-HA_TOKEN="REDACTED_HA_TOKEN"
+
+if [ -z "$HA_TOKEN" ]; then
+  echo "ERROR: HA_TOKEN env var not set. Export your HA long-lived token first." >&2
+  exit 1
+fi
 
 REQUEST="$1"
 
